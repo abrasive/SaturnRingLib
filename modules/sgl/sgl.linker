@@ -1,4 +1,4 @@
-OUTPUT_FORMAT(coff-sh)
+OUTPUT_FORMAT(elf32-sh)
 SECTIONS {
 
 	PRELOADER 0x06004000 : {
@@ -53,7 +53,7 @@ SECTIONS {
 		*(.rodata*)
 	}
 
-	.bss ALIGN(0x10) (NOLOAD):
+	.bss ALIGN(0x10) :
 	{
 		__bstart = . ;
 		*(.bss*)
@@ -62,20 +62,19 @@ SECTIONS {
 		_end = .;
 	}
 
-	HEAP ALIGN(0x10)(NOLOAD):
+	HEAP ALIGN(0x10):
 	{
 		__heap_start = .;
 	}
 
-	WORK_AREA_DUMMY 0x0000000(NOLOAD):
+	WORK_AREA_DUMMY 0x0000000:
 	{
 		*(WORK_AREA_DUMMY)
 	}
 
 	work_area_start = ALIGN(0x060FC000 - SIZEOF(WORK_AREA_DUMMY), 0x1000);
 
-	WORK_AREA work_area_start (NOLOAD):
-	{
+	WORK_AREA work_area_start : {
 		__heap_end = .;
 		*(WORK_AREA)
 		__work_area_end = .;
